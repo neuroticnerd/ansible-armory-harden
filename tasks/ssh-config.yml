@@ -1,0 +1,49 @@
+---
+
+- name: disable ssh password authentication
+  lineinfile: >
+    dest="/etc/ssh/sshd_config"
+    regexp="^PasswordAuthentication\s+\w+"
+    line="PasswordAuthentication no"
+    state=present
+  notify: restart-ssh
+
+- name: disable challenge-response authentication
+  lineinfile: >
+    dest="/etc/ssh/sshd_config"
+    regexp="^ChallengeResponseAuthentication\s+\w+"
+    line="ChallengeResponseAuthentication no"
+    state=present
+  notify: restart-ssh
+
+- name: disallow root login
+  lineinfile: >
+    dest="/etc/ssh/sshd_config"
+    regexp="^PermitRootLogin\s+\w+"
+    line="PermitRootLogin no"
+    state=present
+  notify: restart-ssh
+
+- name: disallow X11 forwarding
+  lineinfile: >
+    dest="/etc/ssh/sshd_config"
+    regexp="^X11Forwarding\s+\w+"
+    line="X11Forwarding no"
+    state=present
+  notify: restart-ssh
+
+- name: disable DNS
+  lineinfile: >
+    dest="/etc/ssh/sshd_config"
+    regexp="^UseDNS\s+\w+"
+    line="UseDNS no"
+    state=present
+  notify: restart-ssh
+
+- name: allow sshlogin group
+  lineinfile: >
+    dest="/etc/ssh/sshd_config"
+    regexp="^AllowGroups\s+[\w\s\-\_]+"
+    line="AllowGroups sshlogin"
+    state=present
+  notify: restart-ssh
